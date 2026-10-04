@@ -1,0 +1,40 @@
+{
+  "dependencies": {
+    "expo": "^57.0.1",
+    "expo-asset": "^57.0.18",
+    "expo-image": "^57.0.5",
+    "expo-router": "^57.0.24",
+    "expo-sharing": "^57.0.22",
+    "expo-splash-screen": "^57.0.9",
+    "expo-status-bar": "^57.0.1",
+    "lucide-react-native": "^1.52.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.3",
+    "react-native-gesture-handler": "~2.32.0",
+    "react-native-reanimated": "4.5.1",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-screens": "~4.26.0",
+    "react-native-svg": "15.15.4",
+    "react-native-web": "^0.21.2",
+    "react-native-worklets": "0.10.1"
+  },
+  "devDependencies": {
+    "@types/react": "~19.2.14",
+    "babel-plugin-react-compiler": "0.0.0-experimental-334f00b-20240725",
+    "eslint": "^8.57.0",
+    "eslint-config-expo": "~57.0.0",
+    "eslint-plugin-react-compiler": "0.0.0-experimental-9ed098e-20240725",
+    "typescript": "~6.0.3"
+  },
+  "name": "dvee-expo-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "main": "expo-router/entry"
+}

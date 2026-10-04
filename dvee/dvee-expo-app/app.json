@@ -1,0 +1,23 @@
+{
+  "experiments": {
+    "reactCompiler": true
+  },
+  "name": "dvee-expo-app",
+  "slug": "dvee-expo-app",
+  "orientation": "portrait",
+  "plugins": [
+    "expo-router",
+    "expo-asset",
+    "expo-image",
+    "expo-sharing",
+    "expo-status-bar",
+    [
+      "expo-splash-screen",
+      {
+        "image": "./assets/splash-icon.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#09090b"
+      }
+    ]
+  ]
+}
