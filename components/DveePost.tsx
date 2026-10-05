@@ -9,11 +9,7 @@ import {
 } from "react-native";
 import { Image } from "expo-image";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Animated, {
-  runOnJS,
-  useAnimatedStyle,
-  useSharedValue,
-} from "react-native-reanimated";
+import { runOnJS, useSharedValue } from "react-native-reanimated";
 import {
   Bookmark,
   Heart,
@@ -37,6 +33,7 @@ export function DveePost({ post, onShare }: DveePostProps) {
 
   const divider = useSharedValue(50);
   const startDivider = useSharedValue(50);
+  const splitWidth = useSharedValue(0);
 
   const activeSide: PostSide = dividerPct >= 50 ? "left" : "right";
   const activeData = activeSide === "left" ? post.left : post.right;
@@ -47,7 +44,9 @@ export function DveePost({ post, onShare }: DveePostProps) {
   }, []);
 
   const onLayout = (event: LayoutChangeEvent) => {
-    setContainerWidth(event.nativeEvent.layout.width);
+    const width = event.nativeEvent.layout.width;
+    splitWidth.value = width;
+    setContainerWidth(width);
   };
 
   const pan = Gesture.Pan()
@@ -55,16 +54,12 @@ export function DveePost({ post, onShare }: DveePostProps) {
       startDivider.value = divider.value;
     })
     .onUpdate((event) => {
-      if (containerWidth <= 0) return;
-      const next = startDivider.value + (event.translationX / containerWidth) * 100;
+      if (splitWidth.value <= 0) return;
+      const next = startDivider.value + (event.translationX / splitWidth.value) * 100;
       const clamped = Math.max(6, Math.min(94, next));
       divider.value = clamped;
       runOnJS(updateDivider)(clamped);
     });
-
-  const dividerStyle = useAnimatedStyle(() => ({
-    left: `${divider.value}%`,
-  }));
 
   const leftCaptionOpacity = dividerPct >= 50 ? 1 : 0.35;
   const rightCaptionOpacity = dividerPct < 50 ? 1 : 0.35;
@@ -135,10 +130,10 @@ export function DveePost({ post, onShare }: DveePostProps) {
             </View>
           </View>
 
-          <Animated.View style={[styles.dividerLine, dividerStyle]} />
-          <Animated.View style={[styles.dividerHandle, dividerStyle]}>
+          <View style={[styles.dividerLine, { left: `${dividerPct}%` }]} />
+          <View style={[styles.dividerHandle, { left: `${dividerPct}%` }]}>
             <Text style={styles.handleArrows}>‹›</Text>
-          </Animated.View>
+          </View>
 
           {post.ad?.left ? (
             <Pressable

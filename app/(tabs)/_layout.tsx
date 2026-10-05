@@ -1,24 +1,36 @@
-import { Tabs } from "expo-router/js-tabs";
+import { Tabs, type BottomTabBarButtonProps } from "expo-router/js-tabs";
 import { useRouter } from "expo-router";
 import { Home, Plus, User } from "lucide-react-native";
 import { Pressable, StyleSheet, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "@/constants/theme";
 
-function CreateTabButton() {
+function CreateTabButton(buttonProps: BottomTabBarButtonProps) {
   const router = useRouter();
   return (
-    <Pressable style={styles.createBtn} onPress={() => router.push("/create")}>
-      <Plus size={22} color="#fff" strokeWidth={2.5} />
+    <Pressable
+      {...buttonProps}
+      style={[buttonProps.style, styles.createTabButton]}
+      onPress={() => router.push("/create")}
+    >
+      <View style={styles.createBtn}>
+        <Plus size={22} color="#fff" strokeWidth={2.5} />
+      </View>
     </Pressable>
   );
 }
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: [
+          styles.tabBar,
+          { height: 84 + insets.bottom, paddingBottom: insets.bottom },
+        ],
         tabBarActiveTintColor: colors.foreground,
         tabBarInactiveTintColor: colors.muted,
         tabBarShowLabel: true,
@@ -38,7 +50,7 @@ export default function TabsLayout() {
         name="create-tab"
         options={{
           title: "",
-          tabBarButton: () => <CreateTabButton />,
+          tabBarButton: (props) => <CreateTabButton {...props} />,
         }}
         listeners={{
           tabPress: (e) => e.preventDefault(),
@@ -61,12 +73,15 @@ const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: "rgba(9,9,11,0.92)",
     borderTopColor: colors.border,
-    height: 84,
     paddingTop: 8,
   },
   tabLabel: {
     fontSize: 9,
     fontWeight: "600",
+  },
+  createTabButton: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   createBtn: {
     width: 48,
